@@ -64,6 +64,45 @@ void modificarEstudiante() {
     // de un estudiante identificado por su carnet.
     // Puedes usar o no manejo de archivos.
     // Si lo implementas con archivos correctamente, obtendrás **2 puntos extra**.
+    void modificarEstudiante() {
+    ifstream archivo("estudiantes.txt");
+    ofstream temp("temp.txt");
+    Estudiante e;
+    string buscado;
+    bool encontrado = false;
+
+    cout << "Ingrese el carnet del estudiante a modificar: ";
+    cin >> buscado;
+
+    if (archivo.is_open() && temp.is_open()) {
+        while (archivo >> e.nombre >> e.carnet >> e.edad) {
+            if (e.carnet == buscado) {
+                encontrado = true;
+                cout << "\nEl estudiante fue encontrado, ingrese los nuevos datos a modificar:\n";
+                cout << "Cambio de nombre (sin espacios por favor): ";
+                cin >> e.nombre;
+                cout << "Cambio a nuevo carnet: ";
+                cin >> e.carnet;
+                cout << "Renovar edad: ";
+                cin >> e.edad;
+            }
+            // Guardara el original o el modificado.
+            temp << e.nombre << " " << e.carnet << " " << e.edad << endl;
+        }
+        archivo.close();
+        temp.close();
+
+        remove("estudiantes.txt");
+        rename("temp.txt", "estudiantes.txt");
+
+        if (encontrado)
+            cout << "Estudiante modificado correctamente.\n";
+        else
+            cout << "Carnet no encontrado.\n";
+    } else {
+        cout << "Error abriendo los archivos.\n";
+    }
+}
 }
 // -----------------------------
 
